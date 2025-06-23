@@ -1,0 +1,65 @@
+version: 2.1
+
+executors:
+  robot_controller:
+    machine:
+      image: windows-server-2022-gui:current
+    resource_class: windows.large
+
+commands:
+  execute_mission:
+    steps:
+      - run:
+          command: |
+            java -jar testfile.jar
+          shell: powershell.exe
+          timeout: 7200
+
+jobs:
+  autonomous_unit:
+    executor: robot_controller
+    parameters:
+      robot_type:
+        type: string
+        default: "general-purpose"
+    steps:
+      - checkout
+      - execute_mission
+
+workflows:
+  robotics_operation:
+    jobs:
+      - autonomous_unit:
+          matrix:
+            parameters:
+              robot_type:
+                - "warehouse-picker"
+                - "inventory-scanner"
+                - "floor-cleaner"
+                - "security-patrol"
+                - "delivery-drone"
+                - "inspection-crawler"
+                - "welding-robot"
+                - "painting-robot"
+                - "assembly-arm"
+                - "packaging-robot"
+                - "quality-checker"
+                - "material-handler"
+                - "surgical-assistant"
+                - "rehabilitation-aide"
+                - "elderly-care-bot"
+                - "cooking-robot"
+                - "gardening-bot"
+                - "pool-cleaner"
+                - "window-washer"
+                - "snow-plow"
+                - "lawn-mower"
+                - "search-rescue"
+                - "bomb-disposal"
+                - "fire-fighter"
+                - "underwater-explorer"
+                - "space-rover"
+                - "mining-excavator"
+                - "construction-builder"
+                - "traffic-controller"
+                - "pet-companion"
